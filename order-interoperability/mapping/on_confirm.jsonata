@@ -1,0 +1,82 @@
+{
+    "context": {},
+    "message": {
+        "order":{ 
+            "id": $string(message.orderId),
+            "provider": message.provider.{
+                "id": $string(id),
+                "descriptor": {
+                    "name": name,
+                    "short_desc": short_desc ? short_desc : "",
+                    "long_desc": long_desc ? long_desc : "",
+                    "additional_desc": {
+                        "url": provider_uri
+                    },
+                    "images": images.{
+                        "url": url?url:"https://abc.com",
+                        "size_type": size_type?size_type:"sm"
+                    }[]
+                },
+                "categories": category_ids.{
+                    "id": $string(id),
+                    "descriptor": {
+                        "name": value
+                    }
+                }[],
+                "rating": rating,
+                "rateable": true
+            },
+            "items": message.items.{
+                "id": $string(id),
+                "descriptor": {
+                    "name": name ? name : "",
+                    "code": code ? code : "",
+                    "short_desc": short_desc ? short_desc : "",
+                    "long_desc": long_desc ? long_desc : "",
+                    "images": image.{
+                        "url": url?url:"https://abc.com",
+                        "size_type": size_type?size_type:"sm"
+                    }[]
+                },
+                "rating":rating,
+                "rateable": true,
+                "price": price,
+                "quantity":quantity,
+                "category_ids": $count(categories) > 0 ? 
+                    $map(categories, function($category){
+                        $string($category.id)
+                    })[] : [],
+                "fulfillment_ids": $count(item_fulfillment_ids) > 0 ?
+                    $map(item_fulfillment_ids, function($v){
+                        $string($v.fulfilment_id.id)
+                    })[] :[],
+                "location_ids": $count(item_fulfillment_ids) > 0 ?
+                    $map(item_fulfillment_ids, function($v){
+                        $string($v.location_id.id)
+                    })[] :
+                [],
+                "tags": tags.{
+                    "descriptor":{
+                        "code":code,
+                        "name":name
+                    },
+                    "display":display,
+                    "list": list.{ "code": code, "name": name, "value": value }[]
+                }[]
+            }[],
+            "fulfillments": message.order.fulfillments,
+            "quote": message.order.quote,
+            "billing": message.order.billing,
+            "payments": message.order.payments,
+            "cancellation_terms": message.order.cancellation_terms,
+            "tags": message.order.tags.{
+                    "descriptor":{
+                        "code":code,
+                        "name":name
+                    },
+                    "display":display,
+                    "list": list.{ "code": code, "name": name, "value": value }[]
+                }[]
+        }
+    }
+}
