@@ -24,7 +24,7 @@ export const createUploadParams = (
   fileName: string,
   body: any
 ): { putObject: PutObjectCommand; fileName: string } => {
-  const key = `${fileName}_${uuidv4()}.json`;
+  const key = `${new Date().getFullYear()}/${fileName}_${uuidv4()}.json`;
   const putObject = new PutObjectCommand({
     Bucket: process.env.BUCKET_NAME,
     Key: key,
