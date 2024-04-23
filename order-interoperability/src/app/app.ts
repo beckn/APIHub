@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from "express";
-import { routes } from "./routes";
+import { orderRoutes } from "./routes";
 import cors from "cors";
 export const startServer = (app: Express) => {
   app.options(
@@ -24,6 +24,6 @@ export const startServer = (app: Express) => {
     res.send("Express + TypeScript Server");
   });
 
-  app.use("/", routes());
+  app.use("/orders", orderRoutes());
   return app;
 };
