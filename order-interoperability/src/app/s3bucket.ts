@@ -28,7 +28,8 @@ export const createUploadParams = (
   const putObject = new PutObjectCommand({
     Bucket: process.env.BUCKET_NAME,
     Key: key,
-    Body: body
+    Body: body,
+    ContentType: "application/json"
   });
   return { putObject, fileName: key };
 };
